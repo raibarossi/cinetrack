@@ -5,33 +5,89 @@
     <title>CineTrack</title>
 </head>
 <body>
-    <h1>CineTrack</h1>
-    <p>O <strong>CineTrack</strong> é uma aplicação web para organizar, acompanhar e catalogar seus filmes favoritos.</p>
 
-    <h2>Status possíveis</h2>
-    <ul id="lista-status">
-        <li class="item-status">Assistido</li>
-        <li class="item-status">Assistindo</li>
-        <li class="item-status">Quero assistir</li>
-    </ul>
-    <h2>Meus filmes favoritos</h2>
-    <ol>
-        <li>A Origem</li>
-        <li>Interestelar</li>
-        <li>Parasita</li>
-    </ol>
-    <h2>Sobre A Origem</h2>
-    <dl>
-        <dt>Diretor</dt>
-        <dd>Christopher Nolan</dd>
+    <header>
+        <h1>CineTrack</h1>
+        <input type="search" aria-label="Buscar filme" placeholder="Buscar filme">
+        <button type="button">+ Adicionar</button>
+    </header>
 
-        <dt>Ano</dt>
-        <dd>2010</dd>
+    <nav aria-label="Filtros de status">
+        <button type="button" class="ativo">Todos</button>
+        <button type="button">Assistido</button>
+        <button type="button">Assistindo</button>
+        <button type="button">Quero assistir</button>
+    </nav>
 
-        <dt>Gênero</dt>
-        <dd>Ficção científica</dd>
-    </dl>
-    <p>&copy; 2025 CineTrack</p>
+    <main>
+        <section id="lista" aria-live="polite">
+            
+            <article class="card">
+                <img src="https://m.media-amazon.com/images/M/MV5BMjAxMzY3NjcxNF5BMl5BanBnXkFtZTcwNTI5OTM0Mw@@._V1_FMjpg_UX1000_.jpg" alt="Pôster do filme A Origem" width="100">
+                <h2>A Origem</h2>
+                <p>2010 &middot; Ficção científica</p>
+                <p>Nota: ★★★★★</p>
+                <span class="badge">assistido</span>
+                <button type="button">Editar</button>
+                <button type="button">Remover</button>
+            </article>
+
+            <article class="card">
+                <img src="https://m.media-amazon.com/images/M/MV5BYWZjMjk3ZTItODQ2ZC00NTY5LWE0ZDYtZTI3MjcwN2Q5NTVkXkEyXkFqcGdeQXVyODk4OTc3MTY@._V1_FMjpg_UX1000_.jpg" alt="Pôster do filme Parasita" width="100">
+                <h2>Parasita</h2>
+                <p>2019 &middot; Suspense</p>
+                <p>Nota: ★★★★☆</p>
+                <span class="badge">assistido</span>
+                <button type="button">Editar</button>
+                <button type="button">Remover</button>
+            </article>
+
+            <article class="card">
+                <img src="https://upload.wikimedia.org/wikipedia/pt/b/bf/O_auto_da_compadecida.jpg" alt="Pôster do filme O Auto da Compadecida" width="100">
+                <h2>O Auto da Compadecida</h2>
+                <p>2000 &middot; Comédia</p>
+                <p>Nota: ★★★★★</p>
+                <span class="badge">assistido</span>
+                <button type="button">Editar</button>
+                <button type="button">Remover</button>
+            </article>
+
+            <article class="card">
+                <img src="https://upload.wikimedia.org/wikipedia/en/5/52/Dune_Part_Two_poster.jpeg" alt="Pôster do filme Duna: Parte Dois" width="100">
+                <h2>Duna: Parte Dois</h2>
+                <p>2024 &middot; Ficção científica</p>
+                <p>Nota: ★★★★★</p>
+                <span class="badge">assistindo</span>
+                <button type="button">Editar</button>
+                <button type="button">Remover</button>
+            </article>
+
+            <article class="card">
+                <img src="https://m.media-amazon.com/images/M/MV5BZjdkOTU3MDktN2IxOS00OGEyLWFmMjktY2FiMmZkNWIyODZiXkEyXkFqcGdeQXVyMTMxODk2OTU@._V1_FMjpg_UX1000_.jpg" alt="Pôster do filme Interestelar" width="100">
+                <h2>Interestelar</h2>
+                <p>2014 &middot; Ficção científica</p>
+                <p>Nota: ★★★★★</p>
+                <span class="badge">assistido</span>
+                <button type="button">Editar</button>
+                <button type="button">Remover</button>
+            </article>
+
+            <article class="card">
+                <img src="https://m.media-amazon.com/images/M/MV5BMGU5OWEwZDItNmNkMC00NzZmLTk1YTctNzVhZTJjM2NlZTVmXkEyXkFqcGdeQXVyMTMxODk2OTU@._V1_FMjpg_UX1000_.jpg" alt="Pôster do filme Cidade de Deus" width="100">
+                <h2>Cidade de Deus</h2>
+                <p>2002 &middot; Drama</p>
+                <p>Nota: ★★★★★</p>
+                <span class="badge">quero assistir</span>
+                <button type="button">Editar</button>
+                <button type="button">Remover</button>
+            </article>
+
+        </section>
+    </main>
+
+    <footer>
+        <a href="adicionar.html">Adicionar novo filme</a>
+    </footer>
 
 </body>
 </html>
