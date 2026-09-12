@@ -1,0 +1,27 @@
+/* Verde: #1DD05D Preto: #000000 Branco #FFFFFF Cinza: #333537*/
+
+* {box-sizing: border-box;
+margin: 0; padding: o;}
+
+html {font-size: 16px;}
+body {font-family: 'Poppins',sans-serif;
+    color: #FFFFFF;
+    background: #333537;
+line-height: 1.5;}
+img {max-width: 100%; display: block;}
+button {font: inherit; cursor: pointer;}
+header{color: #1DD05D; padding: 15px; background: #1E211E;
+}
+nav{
+    padding: 16px;
+}
+
+.card {
+    background-color:#1E211E ;
+    padding: 16px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    border-color: #1DD05D;
+    box-shadow: 0 1px 10px #0002;
+}
+
