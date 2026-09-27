@@ -1,4 +1,10 @@
-/* Verde: #1DD05D Preto: #000000 Branco: #FFFFFF Cinza: #333537 */
+/* ===== PALETA DE CORES =====
+   Vermelho principal: #ff0000
+   Vermelho escuro: #210505
+   Vermelho médio: #4f0909
+   Preto: #000000
+   Branco: #FFFFFF
+*/
 
 /* ===== GERAIS ===== */
 
@@ -13,9 +19,9 @@ html {
 }
 
 body {
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Special Elite', cursive;
     color: #FFFFFF;
-    background: #333537;
+    background: #000000;
     line-height: 1.5;
 }
 
@@ -29,16 +35,24 @@ button {
     cursor: pointer;
     padding: 3px;
     border-radius: 10px;
-    border-color: #1DD05D;
+    border-color: #ff0000;
+}
+
+h1 {
+    font-family: 'Nosifer', cursive;
+}
+
+h2 {
+    font-family: 'Metal Mania', cursive;
 }
 
 
 /* ===== ESTRUTURA ===== */
 
 header {
-    color: #1DD05D;
+    color: #ff0000;
     padding: 15px;
-    background: #1E211E;
+    background: #210505;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -56,31 +70,33 @@ nav {
 /* ===== CLASSES ===== */
 
 .card {
-    background-color: #1E211E;
+    background-color: #210505;
     padding: 16px;
     border: 1px solid;
-    border-color: #1DD05D;
+    border-color: #ff0000;
     border-radius: 10px;
     box-shadow: 0 1px 10px #0002;
-    width: 250px;
+    width: 260px;
     display: flex;
     flex-direction: column;
     gap: 16px;
 }
 
 .search {
+    font-family: 'Special Elite', cursive;
     border-radius: 10px;
     flex: 1;
     height: 35px;
-    border: 3px solid #1DD05D;
+    border: 3px solid #ff0000;
 }
 
 .anchoradd {
-    background-color: #1DD05D;
+    background-color: #ff0000;
     border-radius: 20px;
     padding: 7px;
     color: black;
     text-decoration: none;
+    font-weight: bold;
 }
 
 .acoes {
@@ -92,7 +108,7 @@ nav {
 
 .badge {
     align-self: flex-start;
-    background-color: #333537;
+    background-color: #4f0909;
     border-radius: 20px;
     padding: 4px 10px;
 }
@@ -102,20 +118,26 @@ nav {
 
 .acoes button {
     padding: 6px 12px;
-    border: 2px solid #1DD05D;
+    border: 2px solid #ff0000;
+    font-weight: bold;
 }
 
 nav button {
     padding: 8px 16px;
     border: none;
     border-radius: 20px;
-    background-color: #1E211E;
+    background-color: #4f0909;
     color: #FFFFFF;
 }
 
 nav button.ativo {
-    background-color: #1DD05D;
+    background-color: #ff0000;
     color: #FFFFFF;
+}
+
+.titulo-form {
+    font-family: 'Metal Mania', cursive;
+    color: #ff0000;
 }
 
 
@@ -125,4 +147,46 @@ nav button.ativo {
     display: flex;
     flex-wrap: wrap;
     gap: 16px;
+}
+
+/* ===== FORMULÁRIO ===== */
+
+.form-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    margin: 40px auto;
+}
+
+.titulo-form {
+    color: #ff0000;
+}
+
+#form-filme {
+    width: 500px;
+}
+
+#form-filme input,
+#form-filme select,
+#form-filme textarea {
+    width: 100%;
+    padding: 8px;
+    border: 2px solid #4f0909;
+    border-radius: 8px;
+    background-color: #000000;
+    color: #FFFFFF;
+    font: inherit;
+}
+
+#form-filme input:focus,
+#form-filme select:focus,
+#form-filme textarea:focus {
+    outline: none;
+    border-color: #ff0000;
+}
+
+#form-filme textarea {
+    min-height: 100px;
+    resize: vertical;
 }

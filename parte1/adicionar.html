@@ -4,45 +4,63 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Adicionar Filme</title>
-</head>
-<body>
-    <a href="index.html">&lt;--</a>
-    <h1>Adicionar filme</h1>
-    <form id="form-filme">
-        <label for="titulo">Título</label>
-        <br>
-        <input id="titulo" name="titulo" type="text" required>
-        <br>
-        <label for="ano">Ano</label>
-        <br>
-        <input id="ano" name="ano" type="number" min="1888" max="2030" required>
-        <br>
-        <label for="genero">Gênero</label>
-        <br>
-        <input id="genero" name="genero" type="text" required>
-        <br>
-        <label for="url">URL do Pôster</label>
-        <br>
-        <input id="url" name="url" type="url">
-        <br>
-        <label for="status">Status</label>
-        <br>
-        <select id="status" name="status" required>
-            <option value="Assistido">Assistido</option>
-            <option value="Assistindo">Assistindo</option>
-            <option value="Watchlist">Watchlist</option>
-        </select>
-        <br>
-        <label for="nota">Nota</label>
-        <br>
-        <input id="nota" name="nota" type="number" min="1" max="5">
-        <br>
-        <label for="comentario">Comentário</label>
-        <br>
-        <textarea id="comentario" name="comentario"></textarea>
-        <br>
-        <button type="submit">Salvar</button>
-        <button type="button">Cancelar</button>
-    </form>
 
+    <link rel="stylesheet" href="style.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Metal+Mania&family=Nosifer&family=Special+Elite&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+    <header>
+        <h1>CineTrack</h1>
+
+        <input class="search" aria-label="Buscar filme" placeholder="Buscar filme">
+
+        <a class="anchoradd" href="index.html">Voltar</a>
+    </header>
+
+    <main class="form-container">
+
+        <h2 class="titulo-form">Adicionar filme</h2>
+
+        <form id="form-filme" class="card">
+
+            <label for="titulo">Título</label>
+            <input id="titulo" name="titulo" type="text" required>
+
+            <label for="ano">Ano</label>
+            <input id="ano" name="ano" type="number" min="1888" max="2030" required>
+
+            <label for="genero">Gênero</label>
+            <input id="genero" name="genero" type="text" required>
+
+            <label for="url">URL do Pôster</label>
+            <input id="url" name="url" type="url">
+
+            <label for="status">Status</label>
+            <select id="status" name="status" required>
+                <option value="Assistido">Assistido</option>
+                <option value="Assistindo">Assistindo</option>
+                <option value="Watchlist">Watchlist</option>
+            </select>
+
+            <label for="nota">Nota</label>
+            <input id="nota" name="nota" type="number" min="1" max="5">
+
+            <label for="comentario">Comentário</label>
+            <textarea id="comentario" name="comentario"></textarea>
+
+            <div class="acoes">
+                <button type="submit">Salvar</button>
+                <button type="button">Cancelar</button>
+            </div>
+
+        </form>
+
+    </main>
+
+</body>
 </html>
