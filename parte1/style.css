@@ -9,7 +9,7 @@ body {font-family: 'Poppins',sans-serif;
     background: #333537;
 line-height: 1.5;}
 img {max-width: 100%; display: block;}
-button {font: inherit; cursor: pointer;}
+button {font: inherit; cursor: pointer; border-radius: 10px;}
 header{color: #1DD05D; padding: 15px; background: #1E211E;
 }
 nav{
@@ -20,7 +20,7 @@ nav{
     background-color:#1E211E ;
     padding: 16px;
     border: 1px solid #ddd;
-    border-radius: 8px;
+    border-radius: 10px;
     border-color: #1DD05D;
     box-shadow: 0 1px 10px #0002;
 }
