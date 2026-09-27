@@ -25,3 +25,18 @@ nav{
     box-shadow: 0 1px 10px #0002;
 }
 
+.ativo {
+    background-color: #1DD05D;
+}
+
+.search {
+    border-radius: 10px;
+}
+
+.anchoradd {
+    background-color: #1DD05D;
+    border-radius: 10px;
+    padding: 3px;
+    color: black;
+    text-decoration: none;
+}
