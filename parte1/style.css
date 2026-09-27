@@ -26,8 +26,9 @@ body {
 }
 
 img {
-    max-width: 100%;
-    display: block;
+    width: 100%;
+    aspect-ratio: 2/3;
+    object-fit: cover;
 }
 
 button {
@@ -40,8 +41,8 @@ button {
 
 h1 {
     font-family: 'Nosifer', cursive;
+    font-size: clamp(1.8rem, 4vw, 2.5rem);
 }
-
 h2 {
     font-family: 'Metal Mania', cursive;
 }
@@ -64,6 +65,7 @@ nav {
     padding: 16px;
     display: flex;
     gap: 10px;
+    flex-wrap: wrap;
 }
 
 
@@ -76,7 +78,6 @@ nav {
     border-color: #ff0000;
     border-radius: 10px;
     box-shadow: 0 1px 10px #0002;
-    width: 260px;
     display: flex;
     flex-direction: column;
     gap: 16px;
@@ -140,13 +141,22 @@ nav button.ativo {
     color: #ff0000;
 }
 
+.texto-mobile {
+    display: inline;
+}
+
+.texto-desktop {
+    display: none;
+}
+
 
 /* ===== LISTA ===== */
 
 #lista {
-    display: flex;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
     gap: 16px;
+    padding: 16px;
 }
 
 /* ===== FORMULÁRIO ===== */
@@ -164,7 +174,8 @@ nav button.ativo {
 }
 
 #form-filme {
-    width: 500px;
+    width: 100%;
+    max-width: 500px;
 }
 
 #form-filme input,
@@ -189,4 +200,22 @@ nav button.ativo {
 #form-filme textarea {
     min-height: 100px;
     resize: vertical;
+}
+
+@media (min-width: 1024px) {
+    #lista {
+        gap: 20px;
+    }
+
+    h1 {
+        font-size: 2.5rem;
+    }
+
+    .texto-mobile {
+        display: none;
+    }
+
+    .texto-desktop {
+        display: inline;
+    }
 }
