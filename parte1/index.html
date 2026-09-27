@@ -35,7 +35,7 @@
                 <h2>Final Destination</h2>
                 <p>2000 &middot; Terror</p>
                 <p>Nota: ★★★★★</p>
-                <span class="badge">assistido</span>
+                <span class="badge assistido">assistido</span>
                 <div class="acoes">
                 <button type="button">Editar</button>
                 <button type="button">Remover</button>
@@ -47,7 +47,7 @@
                 <h2>The Evil Dead</h2>
                 <p>1981 &middot; Terror</p>
                 <p>Nota: ★★★★☆</p>
-                <span class="badge">assistido</span>
+                <span class="badge assistido">assistido</span>
                 <div class="acoes">
                 <button type="button">Editar</button>
                 <button type="button">Remover</button>
@@ -59,7 +59,7 @@
                 <h2>The Babysitter</h2>
                 <p>2017 &middot; Terror</p>
                 <p>Nota: ★★★★★</p>
-                <span class="badge">assistido</span>
+                <span class="badge assistido">assistido</span>
                 <div class="acoes">
                 <button type="button">Editar</button>
                 <button type="button">Remover</button>
@@ -71,7 +71,7 @@
                 <h2>Scream 4</h2>
                 <p>2011 &middot; Terror</p>
                 <p>Nota: ★★★★★</p>
-                <span class="badge">assistindo</span>
+                <span class="badge assistindo">assistindo</span>
                 <div class="acoes">
                 <button type="button">Editar</button>
                 <button type="button">Remover</button>
@@ -83,7 +83,7 @@
                 <h2>X</h2>
                 <p>2022 &middot; Terror</p>
                 <p>Nota: ★★★★★</p>
-                <span class="badge">assistido</span>
+                <span class="badge assistido">assistido</span>
                 <div class="acoes">
                 <button type="button">Editar</button>
                 <button type="button">Remover</button>
@@ -95,7 +95,7 @@
                 <h2>Friday the 13th</h2>
                 <p>1980 &middot; Terror</p>
                 <p>Nota: ★★★★★</p>
-                <span class="badge">quero assistir</span>
+                <span class="badge queroassistir">quero assistir</span>
                 <div class="acoes">
                 <button type="button">Editar</button>
                 <button type="button">Remover</button>
@@ -103,6 +103,47 @@
             </article>
 
         </section>
+        <div id="modal" hidden>
+    <div class="modal-conteudo">
+
+        <h2>Adicionar filme</h2>
+
+        <form id="form-filme">
+
+            <label for="titulo-modal">Título</label>
+            <input id="titulo-modal" name="titulo" type="text" required>
+
+            <label for="ano-modal">Ano</label>
+            <input id="ano-modal" name="ano" type="number" min="1888" max="2030" required>
+
+            <label for="genero-modal">Gênero</label>
+            <input id="genero-modal" name="genero" type="text" required>
+
+            <label for="url-modal">URL do Pôster</label>
+            <input id="url-modal" name="url" type="url">
+
+            <label for="status-modal">Status</label>
+            <select id="status-modal" name="status" required>
+                <option value="Assistido">Assistido</option>
+                <option value="Assistindo">Assistindo</option>
+                <option value="Watchlist">Watchlist</option>
+            </select>
+
+            <label for="nota-modal">Nota</label>
+            <input id="nota-modal" name="nota" type="number" min="1" max="5">
+
+            <label for="comentario-modal">Comentário</label>
+            <textarea id="comentario-modal" name="comentario"></textarea>
+
+            <div class="acoes">
+                <button type="submit">Salvar</button>
+                <button type="button">Cancelar</button>
+            </div>
+
+        </form>
+
+    </div>
+</div>
     </main>
 
     <footer>

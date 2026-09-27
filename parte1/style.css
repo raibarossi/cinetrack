@@ -1,3 +1,4 @@
+
 /* ===== PALETA DE CORES =====
    Vermelho principal: #ff0000
    Vermelho escuro: #210505
@@ -5,6 +6,24 @@
    Preto: #000000
    Branco: #FFFFFF
 */
+
+/* ===== VARIÁVEIS ===== */
+
+:root {
+    --vermelho: #ff0000;
+    --vermelho-escuro: #210505;
+    --vermelho-medio: #4f0909;
+    --preto: #000000;
+    --branco: #FFFFFF;
+
+    --verde: #15451d;
+    --amarelo: #f7e648;
+    --azul: #231b59;
+
+    --raio: 10px;
+    --espaco: 16px;
+}
+
 
 /* ===== GERAIS ===== */
 
@@ -20,8 +39,8 @@ html {
 
 body {
     font-family: 'Special Elite', cursive;
-    color: #FFFFFF;
-    background: #000000;
+    color: var(--branco);
+    background: var(--preto);
     line-height: 1.5;
 }
 
@@ -35,14 +54,24 @@ button {
     font: inherit;
     cursor: pointer;
     padding: 3px;
-    border-radius: 10px;
-    border-color: #ff0000;
+    border-radius: var(--raio);
+    border-color: var(--vermelho);
+}
+
+button:hover {
+    transform: scale(1.05);
+}
+
+button:focus-visible {
+    outline: 2px solid var(--vermelho);
+    outline-offset: 2px;
 }
 
 h1 {
     font-family: 'Nosifer', cursive;
     font-size: clamp(1.8rem, 4vw, 2.5rem);
 }
+
 h2 {
     font-family: 'Metal Mania', cursive;
 }
@@ -51,18 +80,18 @@ h2 {
 /* ===== ESTRUTURA ===== */
 
 header {
-    color: #ff0000;
+    color: var(--vermelho);
     padding: 15px;
-    background: #210505;
+    background: var(--vermelho-escuro);
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 16px;
+    gap: var(--espaco);
     flex-wrap: wrap;
 }
 
 nav {
-    padding: 16px;
+    padding: var(--espaco);
     display: flex;
     gap: 10px;
     flex-wrap: wrap;
@@ -72,32 +101,41 @@ nav {
 /* ===== CLASSES ===== */
 
 .card {
-    background-color: #210505;
-    padding: 16px;
+    background-color: var(--vermelho-escuro);
+    padding: var(--espaco);
     border: 1px solid;
-    border-color: #ff0000;
-    border-radius: 10px;
+    border-color: var(--vermelho);
+    border-radius: var(--raio);
     box-shadow: 0 1px 10px #0002;
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    gap: var(--espaco);
 }
 
 .search {
     font-family: 'Special Elite', cursive;
-    border-radius: 10px;
+    border-radius: var(--raio);
     flex: 1;
     height: 35px;
-    border: 3px solid #ff0000;
+    border: 3px solid var(--vermelho);
 }
 
 .anchoradd {
-    background-color: #ff0000;
+    background-color: var(--vermelho);
     border-radius: 20px;
     padding: 7px;
-    color: black;
+    color: var(--preto);
     text-decoration: none;
     font-weight: bold;
+}
+
+.anchoradd:hover {
+    transform: scale(1.05);
+}
+
+.anchoradd:focus-visible {
+    outline: 2px solid var(--vermelho);
+    outline-offset: 2px;
 }
 
 .acoes {
@@ -109,9 +147,22 @@ nav {
 
 .badge {
     align-self: flex-start;
-    background-color: #4f0909;
+    background-color: var(--vermelho-medio);
     border-radius: 20px;
     padding: 4px 10px;
+}
+
+.badge.assistido {
+    background-color: var(--verde);
+}
+
+.badge.assistindo {
+    background-color: var(--amarelo);
+    color: var(--preto);
+}
+
+.badge.queroassistir {
+    background-color: var(--azul);
 }
 
 
@@ -119,26 +170,27 @@ nav {
 
 .acoes button {
     padding: 6px 12px;
-    border: 2px solid #ff0000;
-    font-weight: bold;
+    border: 1px solid var(--vermelho);
+    color: (var(--branco));
+    background-color: var(--vermelho-medio);
 }
 
 nav button {
     padding: 8px 16px;
     border: none;
     border-radius: 20px;
-    background-color: #4f0909;
-    color: #FFFFFF;
+    background-color: var(--vermelho-medio);
+    color: var(--branco);
 }
 
 nav button.ativo {
-    background-color: #ff0000;
-    color: #FFFFFF;
+    background-color: var(--vermelho);
+    color: var(--branco);
 }
 
 .titulo-form {
     font-family: 'Metal Mania', cursive;
-    color: #ff0000;
+    color: var(--vermelho);
 }
 
 .texto-mobile {
@@ -155,9 +207,10 @@ nav button.ativo {
 #lista {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: 16px;
-    padding: 16px;
+    gap: var(--espaco);
+    padding: var(--espaco);
 }
+
 
 /* ===== FORMULÁRIO ===== */
 
@@ -165,12 +218,12 @@ nav button.ativo {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 16px;
+    gap: var(--espaco);
     margin: 40px auto;
 }
 
 .titulo-form {
-    color: #ff0000;
+    color: var(--vermelho);
 }
 
 #form-filme {
@@ -183,10 +236,10 @@ nav button.ativo {
 #form-filme textarea {
     width: 100%;
     padding: 8px;
-    border: 2px solid #4f0909;
+    border: 2px solid var(--vermelho-medio);
     border-radius: 8px;
-    background-color: #000000;
-    color: #FFFFFF;
+    background-color: var(--preto);
+    color: var(--branco);
     font: inherit;
 }
 
@@ -194,13 +247,76 @@ nav button.ativo {
 #form-filme select:focus,
 #form-filme textarea:focus {
     outline: none;
-    border-color: #ff0000;
+    border-color: var(--vermelho);
 }
 
 #form-filme textarea {
     min-height: 100px;
     resize: vertical;
 }
+
+/* ===== MODAL ===== */
+
+#modal {
+    position: fixed;
+    inset: 0;
+    background-color: #000000aa;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--espaco);
+}
+
+#modal[hidden] {
+    display: none;
+}
+
+.modal-conteudo {
+    background-color: var(--vermelho-escuro);
+    border: 2px solid var(--vermelho);
+    border-radius: var(--raio);
+    padding: var(--espaco);
+    width: 100%;
+    max-width: 500px;
+    max-height: 90vh;
+    overflow-y: auto;
+
+    animation: aparecer 0.3s ease;
+}
+
+.modal-conteudo input,
+.modal-conteudo select,
+.modal-conteudo textarea {
+    width: 100%;
+    padding: 8px;
+    border: 2px solid var(--vermelho-medio);
+    border-radius: var(--raio);
+    background-color: var(--preto);
+    color: var(--branco);
+    font: inherit;
+}
+
+.modal-conteudo input:focus,
+.modal-conteudo select:focus,
+.modal-conteudo textarea:focus {
+    outline: none;
+    border-color: var(--vermelho);
+}
+
+@keyframes aparecer {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* ===== RESPONSIVIDADE ===== */
+
 
 @media (min-width: 1024px) {
     #lista {
@@ -217,5 +333,16 @@ nav button.ativo {
 
     .texto-desktop {
         display: inline;
+    }
+
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --vermelho: #ff0000;
+        --vermelho-escuro: #000000;
+        --vermelho-medio: #210505;
+        --preto: #000000;
+        --branco: #FFFFFF;
     }
 }
