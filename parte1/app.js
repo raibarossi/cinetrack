@@ -105,14 +105,65 @@ function renderizarCards(lista) {
             </span>
 
             <div class="acoes">
-                <button type="button">Editar</button>
-                <button type="button">Remover</button>
+                 <button type="button" class="btn-editar">Editar</button>
+                 <button type="button" class="btn-remover">Remover</button>
             </div>
         </article>
     `).join("");
 }
 
-renderizarCards(filmesIniciais);
-const TOTAL = filmesIniciais.length;
-const rodape = document.querySelector("footer small");
-rodape.textContent = `CineTrack © 2026 · ${TOTAL} filmes cadastrados`;
+let filmes = [...filmesIniciais];
+
+let statusAtual = "todos";
+
+const lista = document.querySelector("#lista");
+
+function atualizarLista() {
+    const filtrados = statusAtual === "todos"
+        ? filmes
+        : filmes.filter(filme => filme.status === statusAtual);
+
+    renderizarCards(filtrados);
+}
+
+lista.addEventListener("click", function(event) {
+    const botao = event.target.closest(".btn-remover");
+
+    if (!botao) return;
+
+    const card = botao.closest(".card");
+    const id = Number(card.dataset.id);
+
+    const confirmar = confirm("Deseja remover este filme?");
+
+    if (!confirmar) return;
+
+    filmes = filmes.filter(filme => filme.id !== id);
+
+    atualizarLista();
+    atualizarRodape();
+});
+
+const botoesFiltro = document.querySelectorAll("nav button[data-status]");
+
+botoesFiltro.forEach(botao => {
+    botao.addEventListener("click", function() {
+        botoesFiltro.forEach(item => item.classList.remove("ativo"));
+
+        botao.classList.add("ativo");
+
+        statusAtual = botao.dataset.status;
+
+        atualizarLista();
+    });
+});
+
+function atualizarRodape() {
+    const rodape = document.querySelector("footer small");
+
+    rodape.textContent =
+        `CineTrack © 2026 · ${filmes.length} filmes cadastrados`;
+}
+
+atualizarLista();
+atualizarRodape();
