@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CineTrack</title>
+
     <link rel="stylesheet" href="style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -13,11 +14,18 @@
 
     <header>
         <h1>CineTrack</h1>
-        <input class="search" aria-label="Buscar filme" placeholder="Buscar filme">
-        <a href="adicionar.html" class="anchoradd">
+
+        <input
+            class="search"
+            type="search"
+            aria-label="Buscar filme"
+            placeholder="Buscar filme"
+        >
+
+        <button type="button" class="anchoradd" id="btn-adicionar">
             <span class="texto-mobile">+</span>
             <span class="texto-desktop">+ Adicionar</span>
-        </a>
+        </button>
     </header>
 
     <nav aria-label="Filtros de status">
@@ -28,54 +36,85 @@
     </nav>
 
     <main>
-        <section id="lista" aria-live="polite">
-        </section>
+        <section id="lista" aria-live="polite"></section>
+
         <div id="modal" hidden>
-    <div class="modal-conteudo">
+            <div class="modal-conteudo">
+                <h2 id="modal-titulo">Adicionar filme</h2>
 
-        <h2>Adicionar filme</h2>
+                <form id="form-filme" novalidate>
+                    <label for="titulo-modal">Título</label>
+                    <input
+                        id="titulo-modal"
+                        name="titulo"
+                        type="text"
+                        required
+                    >
 
-        <form id="form-filme">
+                    <label for="ano-modal">Ano</label>
+                    <input
+                        id="ano-modal"
+                        name="ano"
+                        type="number"
+                        min="1888"
+                        max="2030"
+                        required
+                    >
 
-            <label for="titulo-modal">Título</label>
-            <input id="titulo-modal" name="titulo" type="text" required>
+                    <label for="genero-modal">Gênero</label>
+                    <input
+                        id="genero-modal"
+                        name="genero"
+                        type="text"
+                        required
+                    >
 
-            <label for="ano-modal">Ano</label>
-            <input id="ano-modal" name="ano" type="number" min="1888" max="2030" required>
+                    <label for="url-modal">URL do pôster</label>
+                    <input
+                        id="url-modal"
+                        name="poster"
+                        type="url"
+                    >
 
-            <label for="genero-modal">Gênero</label>
-            <input id="genero-modal" name="genero" type="text" required>
+                    <label for="status-modal">Status</label>
+                    <select id="status-modal" name="status" required>
+                        <option value="">Selecione um status</option>
+                        <option value="assistido">Assistido</option>
+                        <option value="assistindo">Assistindo</option>
+                        <option value="quero">Quero assistir</option>
+                    </select>
 
-            <label for="url-modal">URL do Pôster</label>
-            <input id="url-modal" name="url" type="url">
+                    <label for="nota-modal">Nota (1 a 5)</label>
+                    <input
+                        id="nota-modal"
+                        name="nota"
+                        type="number"
+                        min="1"
+                        max="5"
+                        required
+                    >
 
-            <label for="status-modal">Status</label>
-            <select id="status-modal" name="status" required>
-                <option value="Assistido">Assistido</option>
-                <option value="Assistindo">Assistindo</option>
-                <option value="Watchlist">Watchlist</option>
-            </select>
+                    <label for="comentario-modal">Comentário</label>
+                    <textarea
+                        id="comentario-modal"
+                        name="comentario"
+                    ></textarea>
 
-            <label for="nota-modal">Nota</label>
-            <input id="nota-modal" name="nota" type="number" min="1" max="5">
+                    <p id="erros-form" role="alert" hidden></p>
 
-            <label for="comentario-modal">Comentário</label>
-            <textarea id="comentario-modal" name="comentario"></textarea>
-
-            <div class="acoes">
-                <button type="submit">Salvar</button>
-                <button type="button">Cancelar</button>
+                    <div class="acoes">
+                        <button type="submit">Salvar</button>
+                        <button type="button" id="btn-cancelar">Cancelar</button>
+                    </div>
+                </form>
             </div>
-
-        </form>
-
-    </div>
-</div>
+        </div>
     </main>
 
-<footer>
-    <small></small>
-</footer>
-<script src="app.js"></script>
+    <footer>
+        <small></small>
+    </footer>
+
+    <script src="app.js"></script>
 </body>
 </html>
