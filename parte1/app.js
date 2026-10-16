@@ -1,15 +1,7 @@
 function rotuloStatus(status) {
-    if (status === "assistido") {
-        return "assistido";
-    }
-
-    if (status === "assistindo") {
-        return "assistindo";
-    }
-
-    if (status === "quero") {
-        return "quero assistir";
-    }
+    if (status === "assistido") return "assistido";
+    if (status === "assistindo") return "assistindo";
+    if (status === "quero") return "quero assistir";
 
     return status;
 }
@@ -87,18 +79,53 @@ const filmesIniciais = [
     }
 ];
 
-let filmes = [...filmesIniciais];
+const CHAVE_STORAGE = "cinetrack:filmes";
+
+// Carrega os filmes salvos no navegador.
+// Na primeira visita, utiliza os filmes iniciais.
+function carregar() {
+    try {
+        const dados = localStorage.getItem(CHAVE_STORAGE);
+
+        if (dados !== null) {
+            const filmesSalvos = JSON.parse(dados);
+
+            if (Array.isArray(filmesSalvos)) {
+                return filmesSalvos;
+            }
+        }
+    } catch (erro) {
+        console.error("Não foi possível carregar os filmes:", erro);
+    }
+
+    return filmesIniciais.map(filme => ({ ...filme }));
+}
+
+// Salva o array atual no navegador.
+function salvar() {
+    try {
+        localStorage.setItem(CHAVE_STORAGE, JSON.stringify(filmes));
+        return true;
+    } catch (erro) {
+        console.error("Não foi possível salvar os filmes:", erro);
+        alert("Não foi possível salvar os dados neste navegador.");
+        return false;
+    }
+}
+
+let filmes = carregar();
 let statusAtual = "todos";
 let editandoId = null;
 
 const lista = document.querySelector("#lista");
+const busca = document.querySelector("#busca");
 const modal = document.querySelector("#modal");
 const form = document.querySelector("#form-filme");
 const tituloModal = document.querySelector("#modal-titulo");
 const errosForm = document.querySelector("#erros-form");
 const botoesFiltro = document.querySelectorAll("nav button[data-status]");
 
-// Cria um elemento de texto com segurança.
+// Cria um elemento sem inserir dados como HTML.
 function criarElementoTexto(tag, classe, texto) {
     const elemento = document.createElement(tag);
 
@@ -118,8 +145,10 @@ function criarCard(filme) {
     article.dataset.id = filme.id;
 
     const poster = document.createElement("img");
-    poster.src = filme.poster;
+    poster.src = filme.poster || "";
     poster.alt = `Pôster do filme ${filme.titulo}`;
+    poster.loading = "lazy";
+
     article.appendChild(poster);
 
     article.appendChild(
@@ -142,13 +171,13 @@ function criarCard(filme) {
         )
     );
 
-    const badge = criarElementoTexto(
-        "span",
-        `badge ${filme.status}`,
-        rotuloStatus(filme.status)
+    article.appendChild(
+        criarElementoTexto(
+            "span",
+            `badge ${filme.status}`,
+            rotuloStatus(filme.status)
+        )
     );
-
-    article.appendChild(badge);
 
     const acoes = document.createElement("div");
     acoes.className = "acoes";
@@ -157,15 +186,16 @@ function criarCard(filme) {
     btnEditar.type = "button";
     btnEditar.className = "btn-editar";
     btnEditar.textContent = "Editar";
+    btnEditar.setAttribute("aria-label", `Editar ${filme.titulo}`);
 
     const btnRemover = document.createElement("button");
     btnRemover.type = "button";
     btnRemover.className = "btn-remover";
     btnRemover.textContent = "Remover";
+    btnRemover.setAttribute("aria-label", `Remover ${filme.titulo}`);
 
     acoes.appendChild(btnEditar);
     acoes.appendChild(btnRemover);
-
     article.appendChild(acoes);
 
     return article;
@@ -182,16 +212,29 @@ function renderizarCards(listaFilmes) {
     lista.replaceChildren(fragmento);
 }
 
-// Aplica o filtro selecionado.
-function atualizarLista() {
-    const filtrados = statusAtual === "todos"
-        ? filmes
-        : filmes.filter(filme => filme.status === statusAtual);
+// Aplica busca e filtro de status juntos.
+function aplicarFiltros() {
+    const termo = busca.value.trim().toLocaleLowerCase("pt-BR");
 
-    renderizarCards(filtrados);
+    return filmes.filter(filme => {
+        const correspondeStatus =
+            statusAtual === "todos" ||
+            filme.status === statusAtual;
+
+        const correspondeBusca =
+            filme.titulo.toLocaleLowerCase("pt-BR").includes(termo) ||
+            filme.genero.toLocaleLowerCase("pt-BR").includes(termo);
+
+        return correspondeStatus && correspondeBusca;
+    });
 }
 
-// Atualiza a quantidade de filmes no rodapé.
+// Atualiza a lista visível e o rodapé.
+function atualizar() {
+    renderizarCards(aplicarFiltros());
+    atualizarRodape();
+}
+
 function atualizarRodape() {
     const rodape = document.querySelector("footer small");
 
@@ -199,8 +242,7 @@ function atualizarRodape() {
         `CineTrack © 2026 · ${filmes.length} filmes cadastrados`;
 }
 
-// Validação pura: recebe os dados e devolve uma lista de erros.
-// Não altera o formulário nem o array de filmes.
+// Validação pura: recebe os dados e devolve os erros.
 function validarFilme(filme) {
     const erros = [];
 
@@ -234,9 +276,13 @@ function validarFilme(filme) {
         erros.push("A nota deve ser um número inteiro entre 1 e 5.");
     }
 
-    if (filme.poster && filme.poster.trim()) {
+    if (filme.poster) {
         try {
-            new URL(filme.poster);
+            const url = new URL(filme.poster);
+
+            if (url.protocol !== "http:" && url.protocol !== "https:") {
+                erros.push("A URL do pôster deve começar com http:// ou https://.");
+            }
         } catch {
             erros.push("Informe uma URL válida para o pôster.");
         }
@@ -245,7 +291,6 @@ function validarFilme(filme) {
     return erros;
 }
 
-// Mostra os erros de validação.
 function mostrarErros(erros) {
     errosForm.replaceChildren();
     errosForm.hidden = erros.length === 0;
@@ -257,28 +302,27 @@ function mostrarErros(erros) {
     const fragmento = document.createDocumentFragment();
 
     erros.forEach(erro => {
-        const item = document.createElement("p");
-        item.textContent = erro;
-        fragmento.appendChild(item);
+        fragmento.appendChild(
+            criarElementoTexto("p", "", erro)
+        );
     });
 
     errosForm.appendChild(fragmento);
 }
 
-// Abre o modal para adicionar um filme.
+// Abre o modal para adicionar.
 function abrir() {
     form.reset();
     editandoId = null;
 
     mostrarErros([]);
-
     tituloModal.textContent = "Adicionar filme";
     modal.hidden = false;
 
     document.querySelector("#titulo-modal").focus();
 }
 
-// Fecha o modal e limpa o formulário.
+// Fecha o modal.
 function fechar() {
     modal.hidden = true;
     form.reset();
@@ -287,7 +331,6 @@ function fechar() {
     mostrarErros([]);
 }
 
-// Gera um ID que não está sendo utilizado.
 function gerarId() {
     if (filmes.length === 0) {
         return 1;
@@ -296,13 +339,11 @@ function gerarId() {
     return Math.max(...filmes.map(filme => filme.id)) + 1;
 }
 
-// Preenche o formulário para editar um filme.
+// Preenche o modal para edição.
 function editarFilme(id) {
     const filme = filmes.find(item => item.id === id);
 
-    if (!filme) {
-        return;
-    }
+    if (!filme) return;
 
     abrir();
 
@@ -315,32 +356,74 @@ function editarFilme(id) {
     form.elements.poster.value = filme.poster;
     form.elements.status.value = filme.status;
     form.elements.nota.value = filme.nota;
-    form.elements.comentario.value = filme.comentario;
+    form.elements.comentario.value = filme.comentario || "";
 }
 
-// Botão "+ Adicionar".
+// Aguarda 300 ms após a última digitação.
+function debounce(funcao, atraso) {
+    let temporizador;
+
+    return function (...argumentos) {
+        clearTimeout(temporizador);
+
+        temporizador = setTimeout(() => {
+            funcao.apply(this, argumentos);
+        }, atraso);
+    };
+}
+
+function aoDigitar() {
+    atualizar();
+}
+
+// Botão de adicionar.
 document.querySelector("#btn-adicionar").addEventListener("click", abrir);
 
-// Botão "Cancelar".
+// Botão de cancelar.
 document.querySelector("#btn-cancelar").addEventListener("click", fechar);
 
-// Fecha o modal com a tecla Escape.
+// Tecla Escape fecha o modal.
 document.addEventListener("keydown", function(event) {
     if (event.key === "Escape" && !modal.hidden) {
         fechar();
     }
 });
 
-// Delegação de eventos para Editar e Remover.
+// Fecha ao clicar fora do conteúdo do modal.
+modal.addEventListener("click", function(event) {
+    if (event.target === modal) {
+        fechar();
+    }
+});
+
+// Busca com debounce de 300 ms.
+busca.addEventListener("input", debounce(aoDigitar, 300));
+
+// Filtros de status.
+botoesFiltro.forEach(botao => {
+    botao.addEventListener("click", function() {
+        botoesFiltro.forEach(item => {
+            item.classList.remove("ativo");
+            item.setAttribute("aria-pressed", "false");
+        });
+
+        botao.classList.add("ativo");
+        botao.setAttribute("aria-pressed", "true");
+
+        statusAtual = botao.dataset.status;
+
+        atualizar();
+    });
+});
+
+// Delegação dos botões Editar e Remover.
 lista.addEventListener("click", function(event) {
     const botaoEditar = event.target.closest(".btn-editar");
     const botaoRemover = event.target.closest(".btn-remover");
 
     if (botaoEditar) {
         const card = botaoEditar.closest(".card");
-        const id = Number(card.dataset.id);
-
-        editarFilme(id);
+        editarFilme(Number(card.dataset.id));
         return;
     }
 
@@ -348,53 +431,36 @@ lista.addEventListener("click", function(event) {
         const card = botaoRemover.closest(".card");
         const id = Number(card.dataset.id);
 
-        const confirmar = confirm("Deseja remover este filme?");
-
-        if (!confirmar) {
+        if (!confirm("Deseja remover este filme?")) {
             return;
         }
 
         filmes = filmes.filter(filme => filme.id !== id);
 
-        atualizarLista();
-        atualizarRodape();
+        salvar();
+        atualizar();
     }
 });
 
-// Filtros por status.
-botoesFiltro.forEach(botao => {
-    botao.addEventListener("click", function() {
-        botoesFiltro.forEach(item => {
-            item.classList.remove("ativo");
-        });
-
-        botao.classList.add("ativo");
-        statusAtual = botao.dataset.status;
-
-        atualizarLista();
-    });
-});
-
-// Salvar: adicionar ou editar.
+// Adiciona ou edita um filme.
 form.addEventListener("submit", function(event) {
     event.preventDefault();
 
-    const dadosFormulario = Object.fromEntries(
+    const dados = Object.fromEntries(
         new FormData(form).entries()
     );
 
     const filme = {
-        titulo: dadosFormulario.titulo.trim(),
-        ano: Number(dadosFormulario.ano),
-        genero: dadosFormulario.genero.trim(),
-        poster: dadosFormulario.poster.trim(),
-        nota: Number(dadosFormulario.nota),
-        status: dadosFormulario.status,
-        comentario: dadosFormulario.comentario.trim()
+        titulo: dados.titulo.trim(),
+        ano: Number(dados.ano),
+        genero: dados.genero.trim(),
+        poster: dados.poster.trim(),
+        nota: Number(dados.nota),
+        status: dados.status,
+        comentario: dados.comentario.trim()
     };
 
     const erros = validarFilme(filme);
-
     mostrarErros(erros);
 
     if (erros.length > 0) {
@@ -402,13 +468,11 @@ form.addEventListener("submit", function(event) {
     }
 
     if (editandoId === null) {
-        // Adiciona um novo filme.
         filmes.push({
             id: gerarId(),
             ...filme
         });
     } else {
-        // Atualiza o filme mantendo o mesmo ID.
         filmes = filmes.map(item =>
             item.id === editandoId
                 ? { ...item, ...filme, id: item.id }
@@ -416,11 +480,10 @@ form.addEventListener("submit", function(event) {
         );
     }
 
-    atualizarLista();
-    atualizarRodape();
+    salvar();
+    atualizar();
     fechar();
 });
 
-// Estado inicial da página.
-atualizarLista();
-atualizarRodape();
+// Inicializa a página com os dados persistidos.
+atualizar();

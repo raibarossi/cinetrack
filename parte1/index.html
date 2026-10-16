@@ -11,14 +11,14 @@
     <link href="https://fonts.googleapis.com/css2?family=Metal+Mania&family=Nosifer&family=Special+Elite&display=swap" rel="stylesheet">
 </head>
 <body>
-
     <header>
         <h1>CineTrack</h1>
 
         <input
+            id="busca"
             class="search"
             type="search"
-            aria-label="Buscar filme"
+            aria-label="Buscar filme por título ou gênero"
             placeholder="Buscar filme"
         >
 
@@ -29,14 +29,14 @@
     </header>
 
     <nav aria-label="Filtros de status">
-        <button type="button" class="ativo" data-status="todos">Todos</button>
-        <button type="button" data-status="assistido">Assistido</button>
-        <button type="button" data-status="assistindo">Assistindo</button>
-        <button type="button" data-status="quero">Quero assistir</button>
+        <button type="button" class="ativo" data-status="todos" aria-pressed="true">Todos</button>
+        <button type="button" data-status="assistido" aria-pressed="false">Assistido</button>
+        <button type="button" data-status="assistindo" aria-pressed="false">Assistindo</button>
+        <button type="button" data-status="quero" aria-pressed="false">Quero assistir</button>
     </nav>
 
     <main>
-        <section id="lista" aria-live="polite"></section>
+        <section id="lista" aria-label="Lista de filmes" aria-live="polite"></section>
 
         <div id="modal" hidden>
             <div class="modal-conteudo">
@@ -44,37 +44,16 @@
 
                 <form id="form-filme" novalidate>
                     <label for="titulo-modal">Título</label>
-                    <input
-                        id="titulo-modal"
-                        name="titulo"
-                        type="text"
-                        required
-                    >
+                    <input id="titulo-modal" name="titulo" type="text" required>
 
                     <label for="ano-modal">Ano</label>
-                    <input
-                        id="ano-modal"
-                        name="ano"
-                        type="number"
-                        min="1888"
-                        max="2030"
-                        required
-                    >
+                    <input id="ano-modal" name="ano" type="number" min="1888" max="2030" required>
 
                     <label for="genero-modal">Gênero</label>
-                    <input
-                        id="genero-modal"
-                        name="genero"
-                        type="text"
-                        required
-                    >
+                    <input id="genero-modal" name="genero" type="text" required>
 
                     <label for="url-modal">URL do pôster</label>
-                    <input
-                        id="url-modal"
-                        name="poster"
-                        type="url"
-                    >
+                    <input id="url-modal" name="poster" type="url">
 
                     <label for="status-modal">Status</label>
                     <select id="status-modal" name="status" required>
@@ -85,22 +64,12 @@
                     </select>
 
                     <label for="nota-modal">Nota (1 a 5)</label>
-                    <input
-                        id="nota-modal"
-                        name="nota"
-                        type="number"
-                        min="1"
-                        max="5"
-                        required
-                    >
+                    <input id="nota-modal" name="nota" type="number" min="1" max="5" required>
 
                     <label for="comentario-modal">Comentário</label>
-                    <textarea
-                        id="comentario-modal"
-                        name="comentario"
-                    ></textarea>
+                    <textarea id="comentario-modal" name="comentario"></textarea>
 
-                    <p id="erros-form" role="alert" hidden></p>
+                    <div id="erros-form" role="alert" aria-live="assertive" hidden></div>
 
                     <div class="acoes">
                         <button type="submit">Salvar</button>
