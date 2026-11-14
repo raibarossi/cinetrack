@@ -1,10 +1,10 @@
 
 function Titulo() {
   return (
-    <header>
+    <div className="identidade">
       <h1>CineTrack</h1>
       <p>Seu catálogo pessoal de filmes.</p>
-    </header>
+    </div>
   );
 }
 

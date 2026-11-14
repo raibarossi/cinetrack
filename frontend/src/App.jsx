@@ -1,15 +1,27 @@
 
-import Titulo from './components/Titulo';
+import Header from './components/Header';
+import Filtros from './components/Filtros';
+import ListaFilmes from './components/ListaFilmes';
+import { filmesIniciais } from './data/filmes';
 
 function App() {
   return (
-    <main>
-      <Titulo />
+    <>
+      <Header />
+
+      <Filtros />
+
+      <main>
+        <ListaFilmes filmes={filmesIniciais} />
+      </main>
 
       <footer>
-        <p>© {new Date().getFullYear()} CineTrack</p>
+        <small>
+          CineTrack © {new Date().getFullYear()} ·
+          {filmesIniciais.length} filmes cadastrados
+        </small>
       </footer>
-    </main>
+    </>
   );
 }
 
