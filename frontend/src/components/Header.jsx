@@ -1,6 +1,6 @@
 import Titulo from "./Titulo";
 
-function Header({ busca, aoBuscar }) {
+function Header({ busca, aoBuscar, aoAdicionar }) {
   return (
     <header>
       <Titulo />
@@ -14,8 +14,12 @@ function Header({ busca, aoBuscar }) {
         onChange={(evento) => aoBuscar(evento.target.value)}
       />
 
-      <button type="button" className="anchoradd">
-        + Adicionar
+      <button
+        type="button"
+        className="anchoradd"
+        onClick={aoAdicionar}
+>
+       + Adicionar
       </button>
     </header>
   );

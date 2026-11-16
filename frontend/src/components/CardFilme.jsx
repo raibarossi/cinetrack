@@ -1,7 +1,7 @@
 
-function CardFilme({ filme }) {
-  const estrelas = "★".repeat(filme.nota) +
-                   "☆".repeat(5 - filme.nota);
+function CardFilme({ filme, onEditar, onRemover }) {
+  const estrelas =
+    "★".repeat(filme.nota) + "☆".repeat(5 - filme.nota);
 
   const rotuloStatus = {
     assistido: "assistido",
@@ -26,6 +26,24 @@ function CardFilme({ filme }) {
       <span className={`badge ${filme.status}`}>
         {rotuloStatus[filme.status]}
       </span>
+
+      <div className="acoes-card">
+        <button
+          type="button"
+          className="btn-editar"
+          onClick={() => onEditar(filme)}
+        >
+          Editar
+        </button>
+
+        <button
+          type="button"
+          className="btn-remover"
+          onClick={() => onRemover(filme.id)}
+        >
+          Remover
+        </button>
+      </div>
     </article>
   );
 }

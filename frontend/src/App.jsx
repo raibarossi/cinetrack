@@ -1,16 +1,72 @@
+
 import { useState } from "react";
 
 import Header from "./components/Header";
 import Filtros from "./components/Filtros";
 import ListaFilmes from "./components/ListaFilmes";
+import ModalFilme from "./components/ModalFilme";
 
-import { filmesIniciais } from "./data/filmes";
+import { filmesIniciais, gerarId } from "./data/filmes";
 
 function App() {
+  const [filmes, setFilmes] = useState(filmesIniciais);
   const [status, setStatus] = useState("todos");
   const [busca, setBusca] = useState("");
 
-  const visiveis = filmesIniciais.filter((filme) => {
+  const [modalAberto, setModalAberto] = useState(false);
+  const [filmeEmEdicao, setFilmeEmEdicao] = useState(null);
+
+  function adicionar(novoFilme) {
+    const filmeComId = {
+      ...novoFilme,
+      id: gerarId(filmes)
+    };
+
+    setFilmes((listaAtual) => [...listaAtual, filmeComId]);
+  }
+
+  function remover(id) {
+    setFilmes((listaAtual) =>
+      listaAtual.filter((filme) => filme.id !== id)
+    );
+  }
+
+  function editar(id, alteracoes) {
+    setFilmes((listaAtual) =>
+      listaAtual.map((filme) =>
+        filme.id === id
+          ? { ...filme, ...alteracoes }
+          : filme
+      )
+    );
+  }
+
+  function abrirCadastro() {
+    setFilmeEmEdicao(null);
+    setModalAberto(true);
+  }
+
+  function abrirEdicao(filme) {
+    setFilmeEmEdicao(filme);
+    setModalAberto(true);
+  }
+
+  function fecharModal() {
+    setModalAberto(false);
+    setFilmeEmEdicao(null);
+  }
+
+  function salvarFilme(dados) {
+    if (filmeEmEdicao) {
+      editar(filmeEmEdicao.id, dados);
+    } else {
+      adicionar(dados);
+    }
+
+    fecharModal();
+  }
+
+  const visiveis = filmes.filter((filme) => {
     const correspondeStatus =
       status === "todos" || filme.status === status;
 
@@ -28,6 +84,7 @@ function App() {
       <Header
         busca={busca}
         aoBuscar={setBusca}
+        aoAdicionar={abrirCadastro}
       />
 
       <Filtros
@@ -36,7 +93,11 @@ function App() {
       />
 
       <main>
-        <ListaFilmes filmes={visiveis} />
+        <ListaFilmes
+          filmes={visiveis}
+          onEditar={abrirEdicao}
+          onRemover={remover}
+        />
       </main>
 
       <footer>
@@ -45,6 +106,14 @@ function App() {
           {visiveis.length} filmes encontrados
         </small>
       </footer>
+
+      {modalAberto && (
+        <ModalFilme
+          filme={filmeEmEdicao}
+          onSalvar={salvarFilme}
+          onFechar={fecharModal}
+        />
+      )}
     </>
   );
 }

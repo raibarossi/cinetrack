@@ -61,3 +61,11 @@ export const filmesIniciais = [
     comentario: ""
   }
 ];
+
+export function gerarId(filmes) {
+  if (filmes.length === 0) {
+    return 1;
+  }
+
+  return Math.max(...filmes.map((filme) => filme.id)) + 1;
+}

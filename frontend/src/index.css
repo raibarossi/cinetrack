@@ -346,3 +346,88 @@ nav button.ativo {
         --branco: #FFFFFF;
     }
 }
+/* Fundo escuro atrás do formulário */
+.modal {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  padding: 20px;
+  background-color: rgba(0, 0, 0, 0.75);
+}
+
+/* Caixa do formulário */
+.modal form {
+  width: 100%;
+  max-width: 500px;
+  max-height: 90vh;
+  overflow-y: auto;
+
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+
+  padding: 30px;
+  border-radius: 12px;
+
+  background-color: #4f0909;
+  color: white;
+  box-shadow: 0 5px 25px rgba(0, 0, 0, 0.5);
+}
+
+/* Campos do formulário */
+.modal label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.modal input,
+.modal select,
+.modal textarea {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 10px;
+  border: 1px solid #210505;
+  border-radius: 6px;
+  background-color: #210505;
+  color: #210505;
+  font: inherit;
+}
+
+/* Botões */
+.modal button {
+  padding: 10px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+.btn-editar {
+  background-color: #4f0909;
+  color: white;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.btn-editar:hover {
+  background-color: #c0392b;
+}
+
+.btn-remover {
+  background-color: #4f0909;
+  color: white;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.btn-remover:hover {
+  background-color: #922b21;
+}
