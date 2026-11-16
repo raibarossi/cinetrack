@@ -1,7 +1,6 @@
+import Titulo from "./Titulo";
 
-import Titulo from './Titulo';
-
-function Header() {
+function Header({ busca, aoBuscar }) {
   return (
     <header>
       <Titulo />
@@ -11,6 +10,8 @@ function Header() {
         className="search"
         placeholder="Buscar filme"
         aria-label="Buscar filme por título ou gênero"
+        value={busca}
+        onChange={(evento) => aoBuscar(evento.target.value)}
       />
 
       <button type="button" className="anchoradd">
