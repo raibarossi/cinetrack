@@ -1,28 +1,54 @@
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import Header from "./components/Header";
 import Filtros from "./components/Filtros";
 import ListaFilmes from "./components/ListaFilmes";
 import ModalFilme from "./components/ModalFilme";
 
-import { filmesIniciais, gerarId } from "./data/filmes";
+import { gerarId } from "./data/filmes";
+import { listar } from "./api";
 
 function App() {
-  const [filmes, setFilmes] = useState(filmesIniciais);
+  const [filmes, setFilmes] = useState([]);
+  const [carregando, setCarregando] = useState(true);
+  const [erro, setErro] = useState(null);
+
   const [status, setStatus] = useState("todos");
   const [busca, setBusca] = useState("");
 
   const [modalAberto, setModalAberto] = useState(false);
   const [filmeEmEdicao, setFilmeEmEdicao] = useState(null);
 
-  function adicionar(novoFilme) {
-    const filmeComId = {
-      ...novoFilme,
-      id: gerarId(filmes)
-    };
+  // Carrega os filmes quando o componente é montado
+  useEffect(() => {
+    async function carregarFilmes() {
+      try {
+        const dados = await listar();
+        setFilmes(dados);
+      } catch (erro) {
+        setErro(erro.message);
+      } finally {
+        setCarregando(false);
+      }
+    }
 
-    setFilmes((listaAtual) => [...listaAtual, filmeComId]);
+    carregarFilmes();
+  }, []);
+
+  // Atualiza o título da aba conforme a quantidade de filmes
+  useEffect(() => {
+    document.title = `CineTrack - ${filmes.length} filmes`;
+  }, [filmes.length]);
+
+  function adicionar(novoFilme) {
+    setFilmes((listaAtual) => [
+      ...listaAtual,
+      {
+        ...novoFilme,
+        id: gerarId(listaAtual)
+      }
+    ]);
   }
 
   function remover(id) {
@@ -93,11 +119,17 @@ function App() {
       />
 
       <main>
-        <ListaFilmes
-          filmes={visiveis}
-          onEditar={abrirEdicao}
-          onRemover={remover}
-        />
+        {carregando ? (
+          <p>Carregando filmes...</p>
+        ) : erro ? (
+          <p>Erro ao carregar filmes: {erro}</p>
+        ) : (
+          <ListaFilmes
+            filmes={visiveis}
+            onEditar={abrirEdicao}
+            onRemover={remover}
+          />
+        )}
       </main>
 
       <footer>
