@@ -1,12 +1,53 @@
 
-import { filmesIniciais } from "./data/filmes";
+const API_URL = "http://localhost:3000/filmes";
+
+async function requisicao(url, opcoes = {}) {
+  const resposta = await fetch(url, {
+    ...opcoes,
+    headers: {
+      "Content-Type": "application/json",
+      ...opcoes.headers
+    }
+  });
+
+  if (!resposta.ok) {
+    let mensagem = "Erro ao comunicar com a API.";
+    try {
+      const dados = await resposta.json();
+      mensagem = dados.erro || mensagem;
+    } catch {
+      // Algumas respostas, como 204, não possuem corpo JSON.
+    }
+    throw new Error(mensagem);
+  }
+
+  if (resposta.status === 204) {
+    return null;
+  }
+
+  return resposta.json();
+}
 
 export async function listar() {
-  // Simula o tempo de resposta de uma API
-  await new Promise((resolve) => setTimeout(resolve, 500));
+  return requisicao(API_URL);
+}
 
-  // Descomente a linha abaixo para simular uma falha:
-  // throw new Error("Falha ao carregar os filmes.");
+export async function criar(filme) {
+  return requisicao(API_URL, {
+    method: "POST",
+    body: JSON.stringify(filme)
+  });
+}
 
-  return filmesIniciais.map((filme) => ({ ...filme }));
+export async function atualizar(id, filme) {
+  return requisicao(`${API_URL}/${id}`, {
+    method: "PUT",
+    body: JSON.stringify(filme)
+  });
+}
+
+export async function remover(id) {
+  return requisicao(`${API_URL}/${id}`, {
+    method: "DELETE"
+  });
 }

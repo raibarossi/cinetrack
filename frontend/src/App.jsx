@@ -6,8 +6,7 @@ import Filtros from "./components/Filtros";
 import ListaFilmes from "./components/ListaFilmes";
 import ModalFilme from "./components/ModalFilme";
 
-import { gerarId } from "./data/filmes";
-import { listar } from "./api";
+import { listar, criar, atualizar, remover } from "./api";
 
 function App() {
   const [filmes, setFilmes] = useState([]);
@@ -20,7 +19,7 @@ function App() {
   const [modalAberto, setModalAberto] = useState(false);
   const [filmeEmEdicao, setFilmeEmEdicao] = useState(null);
 
-  // Carrega os filmes quando o componente é montado
+  // Carrega os filmes da API quando o componente é montado
   useEffect(() => {
     async function carregarFilmes() {
       try {
@@ -41,37 +40,13 @@ function App() {
     document.title = `CineTrack - ${filmes.length} filmes`;
   }, [filmes.length]);
 
-  function adicionar(novoFilme) {
-    setFilmes((listaAtual) => [
-      ...listaAtual,
-      {
-        ...novoFilme,
-        id: gerarId(listaAtual)
-      }
-    ]);
-  }
-
-  function remover(id) {
-    setFilmes((listaAtual) =>
-      listaAtual.filter((filme) => filme.id !== id)
-    );
-  }
-
-  function editar(id, alteracoes) {
-    setFilmes((listaAtual) =>
-      listaAtual.map((filme) =>
-        filme.id === id
-          ? { ...filme, ...alteracoes }
-          : filme
-      )
-    );
-  }
-
+  // Abre o modal para cadastrar um filme
   function abrirCadastro() {
     setFilmeEmEdicao(null);
     setModalAberto(true);
   }
 
+  // Abre o modal para editar um filme
   function abrirEdicao(filme) {
     setFilmeEmEdicao(filme);
     setModalAberto(true);
@@ -82,14 +57,48 @@ function App() {
     setFilmeEmEdicao(null);
   }
 
-  function salvarFilme(dados) {
-    if (filmeEmEdicao) {
-      editar(filmeEmEdicao.id, dados);
-    } else {
-      adicionar(dados);
-    }
+  // Salva ou atualiza um filme na API antes de atualizar o estado
+  async function salvarFilme(dados) {
+    try {
+      if (filmeEmEdicao) {
+        const filmeAtualizado = await atualizar(
+          filmeEmEdicao.id,
+          dados
+        );
 
-    fecharModal();
+        setFilmes((listaAtual) =>
+          listaAtual.map((filme) =>
+            filme.id === filmeAtualizado.id
+              ? filmeAtualizado
+              : filme
+          )
+        );
+      } else {
+        const novoFilme = await criar(dados);
+
+        setFilmes((listaAtual) => [
+          ...listaAtual,
+          novoFilme
+        ]);
+      }
+
+      fecharModal();
+    } catch (erro) {
+      alert(`Não foi possível salvar o filme: ${erro.message}`);
+    }
+  }
+
+  // Remove o filme da API antes de atualizar o estado
+  async function removerFilme(id) {
+    try {
+      await remover(id);
+
+      setFilmes((listaAtual) =>
+        listaAtual.filter((filme) => filme.id !== id)
+      );
+    } catch (erro) {
+      alert(`Não foi possível remover o filme: ${erro.message}`);
+    }
   }
 
   const visiveis = filmes.filter((filme) => {
@@ -127,7 +136,7 @@ function App() {
           <ListaFilmes
             filmes={visiveis}
             onEditar={abrirEdicao}
-            onRemover={remover}
+            onRemover={removerFilme}
           />
         )}
       </main>
